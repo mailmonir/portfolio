@@ -60,7 +60,6 @@ const ResetPassForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpitaislam2008@gmail.com"
             {...register("email")}
             id="email"
             name="email"

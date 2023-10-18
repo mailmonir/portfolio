@@ -67,7 +67,6 @@ const LoginForm = () => {
         <div className="mt-2">
           <input
             {...register("email")}
-            defaultValue="pushpitaislam2008@gmail.com"
             id="email"
             name="email"
             type="email"
@@ -86,7 +85,6 @@ const LoginForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpita"
             {...register("password")}
             id="password"
             name="password"

@@ -69,7 +69,6 @@ const UpdatePassForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpita1"
             {...register("password")}
             id="password"
             name="password"
@@ -91,7 +90,6 @@ const UpdatePassForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpita1"
             {...register("passwordConfirmation")}
             id="passwordConfirmation"
             name="passwordConfirmation"

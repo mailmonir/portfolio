@@ -75,7 +75,6 @@ const SignupForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="Pushpita Islam"
             {...register("name")}
             id="name"
             name="name"
@@ -94,7 +93,6 @@ const SignupForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpitaislam2008@gmail.com"
             {...register("email")}
             id="email"
             name="email"
@@ -114,7 +112,6 @@ const SignupForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpita"
             {...register("password")}
             id="password"
             name="password"
@@ -136,7 +133,6 @@ const SignupForm = () => {
         </label>
         <div className="mt-2">
           <input
-            defaultValue="pushpita"
             {...register("passwordConfirmation")}
             id="passwordConfirmation"
             name="passwordConfirmation"

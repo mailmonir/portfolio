@@ -11,6 +11,7 @@ import NavLinks from "./navLinks";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState();
+  const [scrollTop, setScrollTop] = useState(0);
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -21,10 +22,26 @@ const Header = () => {
     getUser();
   }, [supabase]);
 
+  useEffect(() => {
+    const handleScroll = (event) => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className={`flex items-center justify-between p-6 lg:px-8 ${
+          scrollTop > 72
+            ? "fixed w-full bg-white opacity-90 shadow transition duration-300"
+            : ""
+        }`}
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
