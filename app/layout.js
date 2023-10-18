@@ -2,7 +2,6 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/app/auth/authProvider";
 import supabaseServer from "./components/supabaseServer";
-import RecaptchaProvider from "@/app/lib/captchaProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,9 +23,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthProvider accessToken={accessToken}>
-        <RecaptchaProvider>
-          <body className={poppins.className}>{children}</body>
-        </RecaptchaProvider>
+        <body className={poppins.className}>{children}</body>
       </AuthProvider>
     </html>
   );

@@ -3,7 +3,7 @@ import Page from "@/app/components/page";
 const CV = () => {
   return (
     <Page>
-      <div className="mx-auto max-w-6xl border p-12">
+      <div className="mx-auto max-w-6xl border p-24">
         <div className="grid md:grid-cols-[70%_25%] md:gap-[5%]">
           <div className="">
             <h1 className="text-5xl font-bold text-gray-900">Monirul Islam</h1>
