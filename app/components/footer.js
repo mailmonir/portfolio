@@ -82,7 +82,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-gray-500 text-xs leading-5 text-center">
+          <p className="text-gray-500 text-sm leading-5 text-center">
             © 2023 Monirul Islam. All rights reserved.
           </p>
         </div>

@@ -34,7 +34,7 @@ const projectItems = [
     title: "My Portfolio Site",
     description:
       "This is my portfolio site built with nextjs and supabase. Complete blog and user authenticated system implemented here.",
-    link: "https://portfolio-mislam.varcel.app/",
+    link: "https://portfolio-mislam.vercel.app/",
   },
   {
     id: 6,
