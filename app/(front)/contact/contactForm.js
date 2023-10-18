@@ -50,15 +50,15 @@ const ContactForm = () => {
         if (res === "failed") {
           setError("serverError", {
             type: "custom",
-            message: "There was an error. Message not submitted",
+            message: "There was an error. Message not sent",
           });
           setIsLoading(false);
         } else if (res.messageId) {
+          reset();
           setError("successMsg", {
             type: "custom",
             message: "Message submitted successfully",
           });
-          reset();
           setIsLoading(false);
         } else {
           setError("serverError", {
@@ -68,6 +68,11 @@ const ContactForm = () => {
           setIsLoading(false);
         }
       });
+    } else {
+      setError("serverError", {
+        type: "custom",
+        message: "There was an error. Message not sent",
+      });
     }
   };
   return (
@@ -76,7 +81,7 @@ const ContactForm = () => {
       className="mx-auto mt-16 max-w-xl sm:mt-20"
     >
       <ShowMessage errors={errors} reset={reset} />
-      <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 mt-8">
         <div>
           <label
             htmlFor="firstName"
