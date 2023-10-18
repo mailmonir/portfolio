@@ -53,7 +53,7 @@ const ContactForm = () => {
             message: "There was an error. Message not sent",
           });
           setIsLoading(false);
-        } else if (res.messageId) {
+        } else if (res?.messageId) {
           reset();
           setError("successMsg", {
             type: "custom",

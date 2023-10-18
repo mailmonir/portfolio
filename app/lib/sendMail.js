@@ -16,10 +16,10 @@ export default async function sendMail(data) {
     from: process.env.MAIL_USER,
     to: process.env.MAIL_TO,
     subject: `Message From ${data?.firstName} ${data?.lastName}`,
-    text: data?.message + " | Sent from: " + data.email,
-    html: `<div>${data.message}</div><p>Sent from: ${data.email}</p>`,
+    text: data?.message + " | Sent from: " + data?.email,
+    html: `<div>${data?.message}</div><p>Sent from: ${data?.email}</p>`,
   };
 
   const info = await transporter.sendMail(mailData);
-  return info.messageId ? info : "failed";
+  return info?.messageId ? info : "failed";
 }
