@@ -5,9 +5,11 @@ import ResetPassForm from "@/app/auth/reset-password/resetPassForm";
 import supabaseServer from "@/app/components/supabaseServer";
 
 const ResetPassword = async () => {
-  const { data } = await supabaseServer().auth.getSession();
+  const {
+    data: { session },
+  } = await supabaseServer().auth.getSession();
 
-  if (data?.session) {
+  if (session) {
     redirect("/");
   }
 

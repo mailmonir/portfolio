@@ -6,9 +6,11 @@ import SocialSignin from "@/app/auth/socialSignin";
 import supabaseServer from "@/app/components/supabaseServer";
 
 const Signup = async () => {
-  const { data } = await supabaseServer().auth.getSession();
+  const {
+    data: { session },
+  } = await supabaseServer().auth.getSession();
 
-  if (data?.session) {
+  if (session) {
     redirect("/admin");
   }
 

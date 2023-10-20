@@ -5,9 +5,11 @@ import UpdatePassForm from "@/app/auth/update-password/updatePassForm";
 import supabaseServer from "@/app/components/supabaseServer";
 
 const UpdatePassword = async () => {
-  const { data } = await supabaseServer().auth.getSession();
+  const {
+    data: { session },
+  } = await supabaseServer().auth.getSession();
 
-  if (data?.session) {
+  if (session) {
     redirect("/");
   }
 
