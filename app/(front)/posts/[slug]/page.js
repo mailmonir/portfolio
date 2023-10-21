@@ -10,6 +10,8 @@ import Page from "@/app/components/page";
 import Categories from "../components/categories";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const { data: posts } = await supabase.from("posts").select("slug");
 
@@ -18,7 +20,7 @@ export async function generateStaticParams() {
   }));
 }
 
-const PostDetails = async ({ params: { slug } }) => {
+const getPost = cache(async function () {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data: post } = await supabase
@@ -28,6 +30,12 @@ const PostDetails = async ({ params: { slug } }) => {
     )
     .match({ slug })
     .single();
+
+  return post;
+});
+
+const PostDetails = async ({ params: { slug } }) => {
+  const post = await getPost();
 
   const markdown = post?.content;
 

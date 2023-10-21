@@ -13,7 +13,6 @@ export const revalidate = 3600;
 
 export const getPosts = cache(async () => {
   const cookieStore = cookies();
-  // const supabase = createServerComponentClient({ cookies });
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data: posts, error } = await supabase
     .from("posts")
