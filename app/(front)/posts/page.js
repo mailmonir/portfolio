@@ -1,12 +1,13 @@
+import { cache } from "react";
+import { cookies } from "next/headers";
+import Image from "next/image";
+import Link from "next/link";
+
 import Page from "@/app/components/page";
 import SectionTitle from "@/app/components/sectionTitle";
 import SectionDescription from "@/app/components/sectionDescription";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { cache } from "react";
 import { formatDistanceFromNow } from "@/app/utils/helpers";
-import Image from "next/image";
-import Link from "next/link";
 import Categories from "./components/categories";
 
 export const revalidate = 3600;
@@ -14,15 +15,13 @@ export const revalidate = 3600;
 export const getPosts = cache(async () => {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  const { data: posts, error } = await supabase
+  const { data: posts } = await supabase
     .from("posts")
     .select(
       `title, excerpt, slug, publish_time, content, profiles(full_name, avatar_url, position, slug ), categories(id, name, slug)`
     )
     .eq("status", "published")
     .order("publish_time", { ascending: false });
-
-  if (error) console.log(error);
 
   return posts;
 });

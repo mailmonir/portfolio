@@ -1,27 +1,24 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
 import { cache } from "react";
-import supabase from "@/app/lib/supabase";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { format } from "date-fns";
+import { notFound } from "next/navigation";
 
+import supabase from "@/app/lib/supabase";
 import Page from "@/app/components/page";
 import Categories from "../components/categories";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const { data: posts } = await supabase.from("posts").select("slug");
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 const getPost = cache(async function (slug) {
-  console.log(slug);
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data: post } = await supabase
@@ -54,6 +51,17 @@ const PostDetails = async ({ params: { slug } }) => {
             </p>
             <div className="py-6 text-sm">
               <Categories categories={post?.categories} />
+            </div>
+            <div>
+              {post?.feature_image && (
+                <Image
+                  src={post?.feature_image}
+                  alt={post?.title}
+                  width={600}
+                  height={400}
+                  className="mb-4"
+                />
+              )}
             </div>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               {post?.title}
