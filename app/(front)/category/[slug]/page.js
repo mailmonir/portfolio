@@ -7,6 +7,12 @@ import Post from "@/app/components/post";
 
 export const revalidate = 60;
 
+export async function generateStaticParams() {
+  const { data: categories } = await supabase.from("categories").select("slug");
+
+  return categories.map((category) => ({ slug: category.slug }));
+}
+
 export const getPosts = async (slug) => {
   const { data: posts } = await supabase
     .from("posts")

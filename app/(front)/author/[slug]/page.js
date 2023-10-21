@@ -7,6 +7,12 @@ import Post from "@/app/components/post";
 
 export const revalidate = 60;
 
+export async function generateStaticParams() {
+  const { data: profiles } = await supabase.from("profiles").select("slug");
+
+  return profiles.map((profile) => ({ slug: profile.slug }));
+}
+
 export const getPosts = async (slug) => {
   const { data: posts } = await supabase
     .from("posts")
