@@ -1,30 +1,26 @@
-import { cache } from "react";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
 import Page from "@/app/components/page";
 import SectionTitle from "@/app/components/sectionTitle";
 import SectionDescription from "@/app/components/sectionDescription";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { formatDistanceFromNow } from "@/app/utils/helpers";
 import Categories from "./components/categories";
+import supabase from "@/app/lib/supabase";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
-export const getPosts = cache(async () => {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+export const getPosts = async () => {
   const { data: posts } = await supabase
     .from("posts")
     .select(
-      `title, excerpt, slug, publish_time, content, profiles(full_name, avatar_url, position, slug ), categories(id, name, slug)`
+      `title, excerpt, slug, publish_time, content, profiles(*), categories(*)`
     )
     .eq("status", "published")
     .order("publish_time", { ascending: false });
 
   return posts;
-});
+};
 
 const Posts = async () => {
   const posts = await getPosts();

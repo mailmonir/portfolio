@@ -1,7 +1,4 @@
-import { cache } from "react";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
@@ -10,7 +7,7 @@ import supabase from "@/app/lib/supabase";
 import Page from "@/app/components/page";
 import Categories from "../components/categories";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const { data: posts } = await supabase.from("posts").select("slug");
@@ -18,19 +15,15 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-const getPost = cache(async function (slug) {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+const getPost = async function (slug) {
   const { data: post } = await supabase
     .from("posts")
-    .select(
-      `*, profiles(full_name, bio, avatar_url, twitter_handle, website), categories(id, name, slug))`
-    )
+    .select(`*, profiles(*), categories(*)`)
     .match({ slug })
     .single();
 
   return post;
-});
+};
 
 const PostDetails = async ({ params: { slug } }) => {
   const post = await getPost(slug);
