@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 import supabase from "@/app/lib/supabase";
 import Page from "@/app/components/page";
-import Categories from "../components/categories";
+import Categories from "@/app/components/postCategories";
 
 export const revalidate = 60;
 
@@ -54,7 +54,7 @@ const PostDetails = async ({ params: { slug } }) => {
               {format(new Date(post?.publish_time), "do MMMM, cccc, yyyy")}
             </p>
             <div className="py-6 text-sm">
-              <Categories categories={post?.categories} />
+              <Categories categories={post?.categories} page="single" />
             </div>
 
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -67,7 +67,7 @@ const PostDetails = async ({ params: { slug } }) => {
           <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-10 lg:max-w-none lg:grid-cols-12">
             <div className="relative lg:order-last lg:col-span-5">
               <figure className="border-l border-sky-400 pl-8">
-                <blockqnonete className="text-base italic font-normal leading-6 tracking-tight text-gray-500">
+                <blockqnonete className="text-sm font-normal leading-6 tracking-tight text-gray-500">
                   {post?.profiles?.bio}
                 </blockqnonete>
                 <figcaption className="mt-8 flex gap-x-4">
