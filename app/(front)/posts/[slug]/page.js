@@ -46,23 +46,24 @@ const PostDetails = async ({ params: { slug } }) => {
       <div className="relative isolate overflo-hidden">
         <div className="mx-auto max-w-7xl gap-x-6 lgp:x-8">
           <div className="mx-auto max-w-2xl lg:ml-0">
+            <div>
+              {post?.feature_image && (
+                <Image
+                  src={post?.feature_image}
+                  alt={post?.title}
+                  width={750}
+                  height={400}
+                  className="mb-4 w-full h-auto object-cover"
+                />
+              )}
+            </div>
             <p className="text-lg font-semibold leading-8 tracking-tight text-sky-500">
               {format(new Date(post?.publish_time), "do MMMM, cccc, yyyy")}
             </p>
             <div className="py-6 text-sm">
               <Categories categories={post?.categories} />
             </div>
-            <div>
-              {post?.feature_image && (
-                <Image
-                  src={post?.feature_image}
-                  alt={post?.title}
-                  width={600}
-                  height={400}
-                  className="mb-4"
-                />
-              )}
-            </div>
+
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               {post?.title}
             </h1>
