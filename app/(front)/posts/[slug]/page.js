@@ -20,7 +20,8 @@ export async function generateStaticParams() {
   }));
 }
 
-const getPost = cache(async function () {
+const getPost = cache(async function (slug) {
+  console.log(slug);
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data: post } = await supabase
@@ -35,7 +36,7 @@ const getPost = cache(async function () {
 });
 
 const PostDetails = async ({ params: { slug } }) => {
-  const post = await getPost();
+  const post = await getPost(slug);
 
   const markdown = post?.content;
 
