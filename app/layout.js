@@ -1,7 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/app/auth/authProvider";
-import supabaseServer from "./components/supabaseServer";
+// import supabaseServer from "./components/supabaseServer";
 
 const poppins = Poppins({
   subsets: ["latin"],

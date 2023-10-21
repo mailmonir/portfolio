@@ -5,7 +5,7 @@ const navItems = [
   { id: 2, text: "CV", link: "/cv" },
   { id: 3, text: "About", link: "/about" },
   { id: 4, text: "Contact", link: "/contact" },
-  { id: 5, text: "Blog", link: "/blog" },
+  { id: 5, text: "Blog", link: "/posts" },
 ];
 
 const NavLinks = ({ links, classes }) => {

@@ -1,5 +1,8 @@
+const withMDX = require("@next/mdx")();
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {experimental: {
+const nextConfig = {
+  experimental: {
     serverActions: true,
   },
   images: {
@@ -18,6 +21,8 @@ const nextConfig = {experimental: {
         pathname: "**",
       },
     ],
-  },}
+  },
+};
 
-module.exports = nextConfig
+// module.exports = withMDX(nextConfig);
+module.exports = nextConfig;

@@ -2,12 +2,15 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import UpdatePassForm from "@/app/auth/update-password/updatePassForm";
-import supabaseServer from "@/app/components/supabaseServer";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const UpdatePassword = async () => {
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const {
     data: { session },
-  } = await supabaseServer().auth.getSession();
+  } = await supabase.auth.getSession();
 
   if (session) {
     redirect("/");

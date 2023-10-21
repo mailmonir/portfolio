@@ -2,12 +2,15 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import ResetPassForm from "@/app/auth/reset-password/resetPassForm";
-import supabaseServer from "@/app/components/supabaseServer";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 const ResetPassword = async () => {
+  const cookieStore = cookies();
+  const supabase = createServerActionClient({ cookies: () => cookieStore });
   const {
     data: { session },
-  } = await supabaseServer().auth.getSession();
+  } = await supabase.auth.getSession();
 
   if (session) {
     redirect("/");

@@ -34,3 +34,63 @@
     opacity: 0.5;
   }
 }
+
+.markdown h1 {
+  @apply font-medium pt-8 text-4xl mb-4 leading-5;
+}
+.markdown h2 {
+  @apply font-medium pt-8 text-3xl mb-4 leading-5;
+}
+.markdown h3 {
+  @apply font-medium pt-8 text-2xl mb-4 leading-5;
+}
+.markdown h4 {
+  @apply font-medium pt-8 text-xl mb-4 leading-5;
+}
+.markdown h5 {
+  @apply font-medium pt-8 text-lg mb-4 leading-5;
+}
+.markdown h6 {
+  @apply font-medium pt-8 text-base mb-4 leading-5;
+}
+
+.markdown ul {
+  @apply list-disc list-inside mb-4;
+}
+.markdown ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+.markdown li {
+  @apply leading-8 ml-4;
+}
+
+.markdown p {
+  @apply mb-4 mt-0;
+}
+
+.markdown strong {
+  @apply font-bold;
+}
+
+.markdown blockquote {
+  @apply text-base leading-8 tracking-tight text-gray-700 italic border-l-8 border-gray-300 pl-8 bg-gray-50 px-6 py-4 rounded-md m-6;
+}
+
+.markdown pre {
+  @apply bg-gray-50 px-4 py-6 text-sm rounded-md font-mono;
+}
+
+.markdown blockquote > p:last-child {
+  @apply mb-0;
+}
+
+.markdown a:link,
+.markdown a:visited {
+  @apply text-sky-600;
+}
+
+.markdown a:hover,
+.markdown a:focus {
+  @apply text-sky-500;
+}
