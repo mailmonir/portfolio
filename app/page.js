@@ -1,6 +1,7 @@
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 import Projects from "@/app/components/projects";
+import Link from "next/link";
 
 const Root = () => {
   return (
@@ -21,13 +22,13 @@ const Root = () => {
         </div>
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+            {/* <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
               Announcing our next round of funding.{" "}
               <a href="#" className="font-semibold text-sky-500">
                 <span className="absolute inset-0" aria-hidden="true" />
                 Read more <span aria-hidden="true">→</span>
               </a>
-            </div>
+            </div> */}
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -37,22 +38,22 @@ const Root = () => {
               Design ingredients need to be applied in different ways to
               different website personalities. Different personalities have
               different traits, therefore choices for design ingredients need to
-              be made accordingly. A detailed description of each personality
+              be made accordingly. A detailed utilization of each personality
               can make the websites beautiful.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
+              <Link
+                href="/contact"
                 className="rounded-md bg-sky-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
               >
                 Get started
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="/cv"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Learn more <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
