@@ -1,13 +1,27 @@
 import ProfileForm from "@/app/admin/profile/profileForm";
 import ResetPassForm from "@/app/admin/profile/resetPassForm";
-// import { getServerSession } from "@/app/lib/checkSessionServer";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 const Profile = async () => {
-  //   const session = await getServerSession();
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  console.log(session);
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session?.user?.id)
+    .single();
+
   return (
     <div className="space-y-12">
-      {/* <ProfileForm session={session} /> */}
-      {/* <ResetPassForm /> */}
+      <ProfileForm profile={profile} />
+      <ResetPassForm />
     </div>
   );
 };

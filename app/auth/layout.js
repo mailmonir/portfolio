@@ -12,6 +12,7 @@ const Layout = ({ children }) => {
             alt="Sign in page logo"
             width={394}
             height={80}
+            priority={true}
           />
         </Link>
         {children}

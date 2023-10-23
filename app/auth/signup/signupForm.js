@@ -41,6 +41,7 @@ const SignupForm = () => {
         data: {
           full_name: data.name,
           avatar_url: "",
+          email: data.email,
         },
       },
     });

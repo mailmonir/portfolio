@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Dropdown from "./dropdown";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,11 +10,13 @@ import {
   HiOutlineUser,
   HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
+import { GlobalContext } from "@/app/contexts/globalContext";
 
 const ProfileMenu = () => {
   const router = useRouter();
   const supabase = createClientComponentClient();
   const [user, setUser] = useState();
+  const { globalState } = useContext(GlobalContext);
 
   useEffect(() => {
     const getUser = async () => {
@@ -39,7 +41,11 @@ const ProfileMenu = () => {
         <span className="sr-only">Open user menu</span>
         {user?.user_metadata?.avatar_url ? (
           <Image
-            src={user?.user_metadata?.avatar_url}
+            src={
+              globalState.avatar_url
+                ? globalState.avatar_url
+                : user?.user_metadata?.avatar_url
+            }
             alt="profile picture"
             width={100}
             height={100}

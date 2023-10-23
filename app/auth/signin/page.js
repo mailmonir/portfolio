@@ -2,10 +2,19 @@ import Link from "next/link";
 
 import SigninForm from "@/app/auth/signin/signinForm";
 import SocialSignin from "@/app/auth/socialSignin";
-// import { checkSessionServer } from "@/app/lib/checkSessionServer";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const Signin = async () => {
-  // checkSessionServer("admin");
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    redirect("/admin");
+  }
 
   return (
     <>

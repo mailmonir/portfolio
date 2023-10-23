@@ -4,12 +4,11 @@ import { useEffect, useState, useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import toast from "react-hot-toast";
 
-// import { useUpdateUser } from "@/app/admin/profile/useUpdateUser";
-// import { useUser } from "@/app/auth/useUser";
 import Spinner from "@/app/components/spinner";
-import { HeaderContext } from "@/app/components/header";
+import { GlobalContext } from "@/app/contexts/globalContext";
 
 const schema = yup.object({
   email: yup.string().required("required").email("must be a valid email"),
@@ -21,68 +20,71 @@ const schema = yup.object({
   bio: yup.string(),
 });
 
-const ProfileForm = () => {
-  // const { setImg } = useContext(HeaderContext);
-
+const ProfileForm = ({ profile }) => {
+  const supabase = createClientComponentClient();
   const [image, setImage] = useState("");
-  const [profile, setProfile] = useState();
-  // console.log(profile?.full_name);
-  // let newImage = "";
-  // const { updateUserData, isUpdating } = useUpdateUser();
-  // const { user } = useUser();
+  const { globalState, setGlobalState } = useContext(GlobalContext);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    reset,
+    formState: { errors, isSubmitSuccessful, isDirty, isSubmitting },
   } = useForm({
-    defaultValues: {
-      // email: user.email,
-      full_name: "test",
-      avatar_url: "",
-    },
-    // defaultValues: { full_name: profile?.full_name },
+    defaultValues: profile,
     resolver: yupResolver(schema),
   });
 
   const handleImageFileChange = (e) => {
-    //   e.target.files[0] && setImage(URL.createObjectURL(e.target.files[0]));
-    //   newImage = URL.createObjectURL(e.target.files[0]);
+    e.target.files[0] && setImage(URL.createObjectURL(e.target.files[0]));
   };
 
-  const onSubmit = async (data) => {
-    //   updateUserData({ ...data, avatar_url: data.avatar_url[0] });
-    console.log(data);
-  };
+  const onSubmit = async (formData) => {
+    const imageName = formData.avatar_url[0]
+      ? `${Math.random()}-${formData.avatar_url[0].name}`
+      : "";
 
-  async function getProfile() {
-    // const supabase = createClientComponentClient();
-    // const {
-    //   data: { session },
-    // } = await supabase.auth.getSession();
-    // const { data: profile } = await supabase
-    //   .from("profiles")
-    //   .select("*")
-    //   .eq("id", session?.user?.id)
-    //   .single();
-    // console.log(profile);
-    // setProfile(profile);
-  }
+    const imagePath =
+      imageName &&
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${imageName}`;
+
+    const { error } = await supabase
+      .from("profiles")
+      .upsert({ ...formData, avatar_url: imagePath })
+      .select();
+
+    if (error) console.log(error);
+
+    if (imagePath) {
+      const { error: storageError } = await supabase.storage
+        .from("avatars")
+        .upload(imageName, formData.avatar_url[0]);
+      // .remove([profile.avatar_url]);
+
+      if (storageError) {
+        console.log(storageError);
+      }
+
+      const imageNameSplited = profile.avatar_url.split("/");
+      const imgName = imageNameSplited[imageNameSplited.length - 1];
+
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .remove([imgName]);
+
+      await supabase.auth.updateUser({
+        data: { avatar_url: imagePath },
+      });
+    }
+
+    setGlobalState((prev) => ({ ...prev, avatar_url: image }));
+    reset();
+    toast.success("Profile updated successfully");
+  };
 
   useEffect(() => {
-    // getProfile();
-  }, []);
-
-  // useEffect(() => {
-  //   if (isSubmitSuccessful) {
-  //     setImg(image);
-  //   }
-  // }, [isSubmitSuccessful, image, setImg]);
-
-  // useEffect(() => {
-  //   user?.user_metadata?.avatar_url
-  //     ? setImage(user?.user_metadata?.avatar_url)
-  //     : "";
-  // }, [setImage, user?.user_metadata?.avatar_url]);
+    !image && setImage(profile?.avatar_url);
+  }, [profile?.avatar_url, image]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -314,14 +316,16 @@ const ProfileForm = () => {
       </div>
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
-          // disabled={isUpdating}
+          disabled={isSubmitting}
           type="submit"
-          className="flex rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className={`${
+            isDirty ? "visible" : "invisible"
+          } flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
         >
           Save
-          {/* {isUpdating && (
+          {isSubmitting && (
             <Spinner sizeClasses="w-4 h-4" textColorClass="text-white" />
-          )} */}
+          )}
         </button>
       </div>
     </form>

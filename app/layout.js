@@ -1,7 +1,9 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import AuthProvider from "@/app/auth/authProvider";
+// import AuthProvider from "@/app/auth/authProvider";
 // import supabaseServer from "./components/supabaseServer";
+import Toaster from "@/app/components/toaster";
+import GContext from "./contexts/globalContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,7 +25,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/* <AuthProvider accessToken={accessToken}> */}
-      <body className={poppins.className}>{children}</body>
+      <GContext>
+        <body className={poppins.className}>
+          <Toaster />
+          {children}
+        </body>
+      </GContext>
       {/* </AuthProvider> */}
     </html>
   );
