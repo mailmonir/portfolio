@@ -3,18 +3,16 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { FaGoogle, FaGithub } from "react-icons/fa6";
 import { useState } from "react";
-import slugify from "slugify";
 
 const SocialSignin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClientComponentClient();
   const oAuthSignIn = async (provider) => {
     setIsLoading(true);
-    let { data, error } = await supabase.auth.signInWithOAuth({
+    let { error } = await supabase.auth.signInWithOAuth({
       ...provider,
       options: {
-        redirectTo:
-          window.location.origin + `/auth/callback?email=${data.user.email}`,
+        redirectTo: window.location.origin + `/auth/callback`,
       },
     });
 
@@ -22,9 +20,6 @@ const SocialSignin = () => {
       console.log(error);
       throw new Error("Oauth signup failed");
     }
-
-    console.log(data);
-
     setIsLoading(false);
   };
 
