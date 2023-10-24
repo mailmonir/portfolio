@@ -25,5 +25,3 @@ export async function middleware(req) {
 export const config = {
   matcher: ["/auth/signin", "/admin"],
 };
-
-

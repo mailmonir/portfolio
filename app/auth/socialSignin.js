@@ -10,10 +10,11 @@ const SocialSignin = () => {
   const supabase = createClientComponentClient();
   const oAuthSignIn = async (provider) => {
     setIsLoading(true);
-    let { error } = await supabase.auth.signInWithOAuth({
+    let { data, error } = await supabase.auth.signInWithOAuth({
       ...provider,
       options: {
-        redirectTo: window.location.origin + "/auth/callback",
+        redirectTo:
+          window.location.origin + `/auth/callback?email=${data.user.email}`,
       },
     });
 
@@ -21,6 +22,8 @@ const SocialSignin = () => {
       console.log(error);
       throw new Error("Oauth signup failed");
     }
+
+    console.log(data);
 
     setIsLoading(false);
   };
