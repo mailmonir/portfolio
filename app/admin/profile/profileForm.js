@@ -40,45 +40,39 @@ const ProfileForm = ({ profile }) => {
   };
 
   const onSubmit = async (formData) => {
-    const imageName = formData.avatar_url[0]
-      ? `${Math.random()}-${formData.avatar_url[0].name}`
-      : "";
-
+    const imageName =
+      typeof formData?.avatar_url[0] === "object"
+        ? `${Math.random()}-${formData.avatar_url[0].name}`
+        : "";
     const imagePath =
       imageName &&
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${imageName}`;
 
-    const { error } = await supabase
-      .from("profiles")
-      .upsert({ ...formData, avatar_url: imagePath })
-      .select();
-
-    if (error) console.log(error);
+    let imageFileToUpload = "";
 
     if (imagePath) {
-      const { error: storageError } = await supabase.storage
-        .from("avatars")
-        .upload(imageName, formData.avatar_url[0]);
-      // .remove([profile.avatar_url]);
+      imageFileToUpload = formData.avatar_url[0];
+      formData.avatar_url = imagePath;
+    } else {
+      formData.avatar_url = profile.avatar_url;
+    }
 
-      if (storageError) {
-        console.log(storageError);
-      }
+    await supabase.from("profiles").upsert(formData).select();
+
+    if (imageName) {
+      await supabase.storage
+        .from("avatars")
+        .upload(imageName, imageFileToUpload);
 
       const imageNameSplited = profile.avatar_url.split("/");
       const imgName = imageNameSplited[imageNameSplited.length - 1];
 
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .remove([imgName]);
+      await supabase.storage.from("avatars").remove([imgName]);
 
-      await supabase.auth.updateUser({
-        data: { avatar_url: imagePath },
-      });
+      setGlobalState((prev) => ({ ...prev, avatar_url: image }));
+      reset();
     }
 
-    setGlobalState((prev) => ({ ...prev, avatar_url: image }));
-    reset();
     toast.success("Profile updated successfully");
   };
 

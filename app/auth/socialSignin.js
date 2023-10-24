@@ -3,6 +3,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { FaGoogle, FaGithub } from "react-icons/fa6";
 import { useState } from "react";
+import slugify from "slugify";
 
 const SocialSignin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,7 @@ const SocialSignin = () => {
       console.log(error);
       throw new Error("Oauth signup failed");
     }
+
     setIsLoading(false);
   };
 

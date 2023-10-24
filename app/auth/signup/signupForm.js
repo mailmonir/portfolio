@@ -5,6 +5,7 @@ import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import slugify from "slugify";
 
 import Spinner from "@/app/components/spinner";
 import ShowMessage from "@/app/components/showMessage";
@@ -41,7 +42,7 @@ const SignupForm = () => {
         data: {
           full_name: data.name,
           avatar_url: "",
-          email: data.email,
+          slug: slugify(data.name, { replacement: "_", lower: true }),
         },
       },
     });
