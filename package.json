@@ -21,6 +21,7 @@
   "dependencies": {
     "@payloadcms/admin-bar": "3.40.0",
     "@payloadcms/db-mongodb": "^3.40.0",
+    "@payloadcms/email-nodemailer": "^3.40.0",
     "@payloadcms/live-preview-react": "3.40.0",
     "@payloadcms/next": "3.40.0",
     "@payloadcms/payload-cloud": "3.40.0",
@@ -35,6 +36,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@types/nodemailer": "^6.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
@@ -43,6 +45,7 @@
     "lucide-react": "^0.378.0",
     "next": "15.3.0",
     "next-sitemap": "^4.2.3",
+    "nodemailer": "^7.0.3",
     "payload": "3.40.0",
     "prism-react-renderer": "^2.3.1",
     "react": "19.1.0",
