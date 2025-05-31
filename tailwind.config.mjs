@@ -13,9 +13,13 @@ const config = {
   plugins: [tailwindcssAnimate, typography],
   prefix: '',
   safelist: [
+    'lg:col-span-2',
+    'lg:col-span-3',
     'lg:col-span-4',
     'lg:col-span-6',
     'lg:col-span-8',
+    'lg:col-span-9',
+    'lg:col-span-10',
     'lg:col-span-12',
     'border-border',
     'bg-card',

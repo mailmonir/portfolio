@@ -6,6 +6,9 @@ import {
   ParagraphFeature,
   lexicalEditor,
   UnderlineFeature,
+  AlignFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
@@ -15,8 +18,12 @@ export const defaultLexical = lexicalEditor({
     UnderlineFeature(),
     BoldFeature(),
     ItalicFeature(),
+    AlignFeature(),
+    OrderedListFeature(),
+    UnorderedListFeature(),
     LinkFeature({
       enabledCollections: ['pages', 'posts'],
+
       fields: ({ defaultFields }) => {
         const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
           if ('name' in field && field.name === 'url') return false
